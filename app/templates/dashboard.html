@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Opportunities Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #007BFF;
+            color: #ffffff;
+            padding: 1em 2em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin: 0 1em;
+        }
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .dashboard-container {
+            display: flex;
+            padding: 2em;
+            gap: 2em;
+        }
+        .sidebar {
+            flex: 1;
+            background: #ffffff;
+            padding: 1em;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .content {
+            flex: 3;
+            background: #ffffff;
+            padding: 1em;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .search-bar {
+            margin-bottom: 1em;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 0.75em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .opportunity {
+            margin-bottom: 1em;
+            padding: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .opportunity h3 {
+            margin: 0;
+        }
+        .btn {
+            padding: 0.5em 1em;
+            background: #007BFF;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 0.5em;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Research Opportunities</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Saved Opportunities</a></li>
+                <li><a href="#">Applications</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Log Out</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>Categories</h2>
+            <ul>
+                <li><a href="#">STEM</a></li>
+                <li><a href="#">Humanities</a></li>
+                <li><a href="#">Social Sciences</a></li>
+                <li><a href="#">Health Sciences</a></li>
+                <li><a href="#">Arts</a></li>
+            </ul>
+        </aside>
+        <main class="content">
+            <div class="search-bar">
+                <input type="text" placeholder="Search for research opportunities...">
+            </div>
+            <h2>Featured Opportunities</h2>
+            <div class="opportunity">
+                <h3>Research on Artificial Intelligence</h3>
+                <p>Location: MIT | Deadline: March 30, 2024</p>
+                <a href="#" class="btn">View Details</a>
+            </div>
+            <div class="opportunity">
+                <h3>Climate Change Impact Study</h3>
+                <p>Location: Stanford University | Deadline: April 15, 2024</p>
+                <a href="#" class="btn">View Details</a>
+            </div>
+            <div class="opportunity">
+                <h3>Human Genome Project</h3>
+                <p>Location: Harvard Medical School | Deadline: May 10, 2024</p>
+                <a href="#" class="btn">View Details</a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
