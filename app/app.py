@@ -37,7 +37,9 @@ def signin():
         user = User.query.filter_by(username=username).first()
         if user and user.password == password:
             access_token = create_access_token(identity=user.id)
-            return render_template('dashboard.html', username=username)
+            response = make_response(render_template('dashboard.html', username=username))
+            response.set_cookie('jwt', access_token, httponly=True, secure=True)
+            return response
         else:
             return render_template('signin.html', error="Invalid username or password.")
 
@@ -60,10 +62,11 @@ def signup():
             db.session.commit()
             return render_template('signin.html', success="Account created! Please sign in.")
 
-@app.route("/logout", methods=["DELETE"])
-@jwt_required(verify_type=False)
+@app.route("/sign-in/logout", methods=["GET"])
 def logout():
-    pass
+    response = make_response(jsonify({"message": "Logged out successfully"}))
+    response.delete_cookie('jwt')  # Clear the JWT cookie
+    return render_template('index.html')
     
 
 
