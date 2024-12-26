@@ -1,2 +1,3 @@
 app/migrations
 app/instance/Database.db
+instance/Database.db

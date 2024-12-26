@@ -1,5 +1,5 @@
 from flask import jsonify, Flask, make_response, render_template, request
-from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, jwt_required
+from flask_jwt_extended import JWTManager, create_access_token, get_jwt, get_jwt_identity, jwt_required
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import uuid
@@ -59,6 +59,19 @@ def signup():
             db.session.add(new_user)
             db.session.commit()
             return render_template('signin.html', success="Account created! Please sign in.")
+
+@app.route("/logout", methods=["DELETE"])
+@jwt_required(verify_type=False)
+def logout():
+    token = get_jwt()
+    jti = token["jti"]
+    ttype = token["type"]
+    jwt_redis_blocklist.set(jti, "", ex=ACCESS_EXPIRES)
+
+    # Returns "Access token revoked" or "Refresh token revoked"
+    return jsonify(msg=f"{ttype.capitalize()} token successfully revoked")
+    
+
 
 
 if __name__ == "__main__":
