@@ -99,7 +99,7 @@
                 <li><a href="#">Saved Opportunities</a></li>
                 <li><a href="#">Applications</a></li>
                 <li><a href="#">Profile</a></li>
-                <form action="/logout", method="POST">
+                <form action="/logout" method="POST">
                     <li><a href="sign-in/logout">Log Out</a></li>
                 </form>
             </ul>
@@ -126,21 +126,15 @@
                 <input type="text" placeholder="Search for research opportunities...">
             </div>
             <h2>Featured Opportunities</h2>
+            {% for opportunity in opportunities %}
             <div class="opportunity">
-                <h3>Research on Artificial Intelligence</h3>
-                <p>Location: MIT | Deadline: March 30, 2024</p>
+                <h3>{{ opportunity['Description'] }}</h3>
+                <p><strong>Research Area:</strong> {{ opportunity['Research Area'] }}</p>
+                <p><strong>Timing:</strong> {{ opportunity['Timing'] }}</p>
+                <p><strong>Deadline:</strong> {{ opportunity['Deadline'] }}</p>
                 <a href="#" class="btn">View Details</a>
             </div>
-            <div class="opportunity">
-                <h3>Climate Change Impact Study</h3>
-                <p>Location: Stanford University | Deadline: April 15, 2024</p>
-                <a href="#" class="btn">View Details</a>
-            </div>
-            <div class="opportunity">
-                <h3>Human Genome Project</h3>
-                <p>Location: Harvard Medical School | Deadline: May 10, 2024</p>
-                <a href="#" class="btn">View Details</a>
-            </div>
+            {% endfor %}
         </main>
     </div>
 </body>

@@ -22,4 +22,4 @@ def scrape_and_store():
   df = pd.DataFrame(data, columns=["Description", "Research Area", "Timing", "Deadline"]).fillna("Unknown")
   # Remove duplicates and rows with missing values
   df = df.drop_duplicates()
-  print( df)
+  return df

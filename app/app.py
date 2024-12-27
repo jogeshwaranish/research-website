@@ -3,6 +3,7 @@ from flask_jwt_extended import JWTManager, create_access_token, get_jwt, get_jwt
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import uuid
+from webscraper  import scrape_and_store
 
 app = Flask(__name__)
 
@@ -37,7 +38,9 @@ def signin():
         user = User.query.filter_by(username=username).first()
         if user and user.password == password:
             access_token = create_access_token(identity=user.id)
-            response = make_response(render_template('dashboard.html', username=username))
+            df = scrape_and_store()
+            opportunities = df.to_dict(orient='records')
+            response = make_response(render_template('dashboard.html', username=username, opportunities=opportunities))
             response.set_cookie('jwt', access_token, httponly=True, secure=True)
             return response
         else:
