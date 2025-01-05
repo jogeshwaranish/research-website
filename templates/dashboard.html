@@ -132,8 +132,10 @@
                 <p><strong>Research Area:</strong> {{ opportunity['Research Area'] }}</p>
                 <p><strong>Timing:</strong> {{ opportunity['Timing'] }}</p>
                 <p><strong>Deadline:</strong> {{ opportunity['Deadline'] }}</p>
-                <a href="#" class="btn">View Details</a>
-            </div>
+                <a href="https://researchops.web.illinois.edu/{{ opportunity['Link'] }}" 
+                class="btn" target="_blank" rel="noopener noreferrer">
+                Apply Here
+             </a>            </div>
             {% endfor %}
         </main>
     </div>
