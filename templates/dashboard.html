@@ -133,11 +133,41 @@
                 <p><strong>Timing:</strong> {{ opportunity['Timing'] }}</p>
                 <p><strong>Deadline:</strong> {{ opportunity['Deadline'] }}</p>
                 <a href="https://researchops.web.illinois.edu/{{ opportunity['Link'] }}" 
-                class="btn" target="_blank" rel="noopener noreferrer">
-                Apply Here
-             </a>            </div>
+                    class="btn apply-btn" target="_blank" rel="noopener noreferrer">
+                        Apply Here
+                </a>
+             <div class="question" style="display: none;">
+                <p>Did you apply?</p>
+                <button class="yes-btn">Yes</button>
+                <button class="no-btn">No</button>
+            </div>            
+            </div>
             {% endfor %}
         </main>
     </div>
+    <script>
+        document.querySelectorAll('.apply-btn').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                window.open(this.href, '_blank', 'noopener,noreferrer');
+                const questionDiv = this.nextElementSibling;
+                questionDiv.style.display = 'block';
+            });
+        });
+    
+        document.querySelectorAll('.yes-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                alert('Thank you for applying!');
+                this.parentElement.style.display = 'none';
+            });
+        });
+    
+        document.querySelectorAll('.no-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                alert('Maybe next time!');
+                this.parentElement.style.display = 'none';
+            });
+        });
+    </script>
 </body>
 </html>
