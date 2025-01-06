@@ -71,7 +71,10 @@ def logout():
     response.delete_cookie('jwt')  # Clear the JWT cookie
     return render_template('index.html')
     
-
+@app.route('/applications', methods=['GET'])
+@jwt_required()
+def applications():
+    return render_template('applications.html')
 
 
 if __name__ == "__main__":

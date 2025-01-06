@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Jobs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #007BFF;
+            color: #ffffff;
+            padding: 1em 2em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin: 0 1em;
+        }
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .applications-container {
+            padding: 2em;
+        }
+        .job {
+            background: #ffffff;
+            margin-bottom: 1.5em;
+            padding: 1em;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .job h3 {
+            margin: 0;
+        }
+        .job p {
+            margin: 0.5em 0;
+        }
+        .status {
+            margin-top: 1em;
+            font-weight: bold;
+            color: #007BFF;
+        }
+        .btn {
+            padding: 0.5em 1em;
+            background: #007BFF;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 0.5em;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Applied Jobs</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Saved Opportunities</a></li>
+                <li><a href="#">Applications</a></li>
+                <li><a href="#">Profile</a></li>
+                <form action="/logout" method="POST">
+                    <li><a href="sign-in/logout">Log Out</a></li>
+                </form>
+            </ul>
+        </nav>
+    </header>
+    <div class="applications-container">
+        <h2>Jobs You Have Applied To</h2>
+        {% for job in applied_jobs %}
+        <div class="job">
+            <h3>{{ job['Title'] }}</h3>
+            <p><strong>Company:</strong> {{ job['Company'] }}</p>
+            <p><strong>Location:</strong> {{ job['Location'] }}</p>
+            <p><strong>Date Applied:</strong> {{ job['Date Applied'] }}</p>
+            <p class="status">Application Status: {{ job['Status'] }}</p>
+            <a href="{{ job['Details Link'] }}" class="btn" target="_blank" rel="noopener noreferrer">View Details</a>
+        </div>
+        {% else %}
+        <p>No jobs applied yet. Start applying to opportunities!</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
