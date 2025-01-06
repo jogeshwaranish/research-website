@@ -1,4 +1,4 @@
-from flask import jsonify, Flask, make_response, render_template, request
+from flask import jsonify, Flask, make_response, redirect, render_template, request, url_for
 from flask_jwt_extended import JWTManager, create_access_token, get_jwt, get_jwt_identity, jwt_required
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -6,6 +6,10 @@ import uuid
 from webscraper  import scrape_and_store
 
 app = Flask(__name__)
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config['JWT_COOKIE_SECURE'] = False  
+app.config['JWT_ACCESS_COOKIE_PATH'] = '/'  
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False  
 
 app.config['SECRET_KEY'] = 'dev'
 
@@ -25,26 +29,35 @@ class User(db.Model):
 def main_page():
     return render_template('index.html')
 
+@app.route('/dashboard')
+@jwt_required()
+def dashboard():
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    if user:
+        df = scrape_and_store()
+        opportunities = df.to_dict(orient='records')
+        return render_template('dashboard.html', username=user.username, opportunities=opportunities)
+    else:
+        return redirect(url_for('signin'))
+
 @app.route('/sign-in', methods=['GET', 'POST'])
 def signin():
     if request.method == "GET":
-        return render_template('signin.html')  # Render the sign-in page
+        return render_template('signin.html')
     elif request.method == "POST":
-        # Use request.form to get form data
         username = request.form.get('username')
         password = request.form.get('password')
 
-        # Authenticate the user
         user = User.query.filter_by(username=username).first()
         if user and user.password == password:
-            access_token = create_access_token(identity=user.id)
-            df = scrape_and_store()
-            opportunities = df.to_dict(orient='records')
-            response = make_response(render_template('dashboard.html', username=username, opportunities=opportunities))
-            response.set_cookie('jwt', access_token, httponly=True, secure=True)
+            access_token = create_access_token(identity=str(user.id))
+            response = make_response(redirect(url_for('dashboard')))  # Redirect to the dashboard
+            response.set_cookie('access_token_cookie', access_token, httponly=True)  # Set JWT in a cookie
             return response
         else:
-            return render_template('signin.html', error="Invalid username or password.")
+            return render_template('signin.html', error="Invalid credentials")
+
 
 @app.route('/sign-up', methods=['GET', 'POST'])
 def signup():
@@ -65,11 +78,11 @@ def signup():
             db.session.commit()
             return render_template('signin.html', success="Account created! Please sign in.")
 
-@app.route("/sign-in/logout", methods=["GET"])
+@app.route('/logout')
 def logout():
-    response = make_response(jsonify({"message": "Logged out successfully"}))
-    response.delete_cookie('jwt')  # Clear the JWT cookie
-    return render_template('index.html')
+    response = make_response(redirect(url_for('signin')))
+    response.delete_cookie('access_token_cookie')
+    return response
     
 @app.route('/applications', methods=['GET'])
 @jwt_required()
