@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research Opportunities Dashboard</title>
+    <title>Nexus Scholar Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,7 +12,7 @@
             background-color: #f4f4f9;
         }
         header {
-            background-color: #007BFF;
+            background-color: #8a46b4;
             color: #ffffff;
             padding: 1em 2em;
             display: flex;
@@ -76,7 +76,7 @@
         }
         .btn {
             padding: 0.5em 1em;
-            background: #007BFF;
+            background: #000000;
             color: #ffffff;
             border: none;
             border-radius: 5px;
@@ -86,33 +86,23 @@
             margin-top: 0.5em;
         }
         .btn:hover {
-            background: #0056b3;
+            background: #000000;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Research Opportunities</h1>
+        <h1>Nexus Scholar</h1>
         <nav>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Saved Opportunities</a></li>
                 <li><a href="/applications">Applications</a></li>
-                <li><a href="#">Profile</a></li>
+                <li><a href="/profile">Profile</a></li>
                 <li><a href="/logout">Log Out</a></li>
             </ul>
         </nav>
     </header>
     <div class="dashboard-container">
-        <aside class="sidebar">
-            <h2>Categories</h2>
-            <ul>
-                <li><a href="#">STEM</a></li>
-                <li><a href="#">Humanities</a></li>
-                <li><a href="#">Social Sciences</a></li>
-                <li><a href="#">Health Sciences</a></li>
-                <li><a href="#">Arts</a></li>
-            </ul>
+        <aside class="sidebar" text-indent: 1em;>
             <h2>Improve your chances</h2>
             <ul>
                 <li><a href="#">Resume Generation</a></li>
@@ -121,7 +111,7 @@
         </aside>
         <main class="content">
             <div class="search-bar">
-                <input type="text" placeholder="Search for research opportunities...">
+                <input type="text" id = "search-input" placeholder="Search for research opportunities...">
             </div>
             <h2>Featured Opportunities</h2>
             {% for opportunity in opportunities %}
@@ -157,6 +147,7 @@
             button.addEventListener('click', function() {
                 alert('Thank you for applying!');
                 this.parentElement.style.display = 'none';
+
             });
         });
     
@@ -164,6 +155,19 @@
             button.addEventListener('click', function() {
                 alert('Maybe next time!');
                 this.parentElement.style.display = 'none';
+            });
+        });
+
+        document.getElementById('search-input').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            document.querySelectorAll('.opportunity').forEach(opportunity => {
+                const description = opportunity.querySelector('h3').textContent.toLowerCase();
+                const researchArea = opportunity.querySelector('p').textContent.toLowerCase();
+                if (description.includes(searchTerm) || researchArea.includes(searchTerm)) {
+                    opportunity.style.display = '';
+                } else {
+                    opportunity.style.display = 'none';
+                }
             });
         });
     </script>

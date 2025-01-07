@@ -1,3 +1,4 @@
+from re import M
 from flask import jsonify, Flask, make_response, redirect, render_template, request, url_for
 from flask_jwt_extended import JWTManager, create_access_token, get_jwt, get_jwt_identity, jwt_required
 from flask_sqlalchemy import SQLAlchemy
@@ -89,6 +90,10 @@ def logout():
 def applications():
     return render_template('applications.html')
 
+@app.route('/profile',methods=['GET','POST'])
+@jwt_required()
+def profile():
+    return render_template('profile.html')
 
 if __name__ == "__main__":
     with app.app_context():

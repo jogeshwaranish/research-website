@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Applications</title>
+    <title>User Profile</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -35,26 +35,22 @@
             color: #ffffff;
             text-decoration: none;
         }
-        .applications-container {
+        .profile-container {
             padding: 2em;
         }
-        .job {
+        .profile-card {
             background: #ffffff;
-            margin-bottom: 1.5em;
-            padding: 1em;
+            padding: 2em;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
         }
-        .job h3 {
-            margin: 0;
+        .profile-card h2 {
+            margin-top: 0;
         }
-        .job p {
+        .profile-card p {
             margin: 0.5em 0;
-        }
-        .status {
-            margin-top: 1em;
-            font-weight: bold;
-            color: #000000;
         }
         .btn {
             padding: 0.5em 1em;
@@ -65,7 +61,7 @@
             text-decoration: none;
             cursor: pointer;
             display: inline-block;
-            margin-top: 0.5em;
+            margin-top: 1em;
         }
         .btn:hover {
             background: #0056b3;
@@ -77,28 +73,22 @@
         <h1>Nexus Scholar</h1>
         <nav>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Saved Opportunities</a></li>
-                <li><a href="#">Applications</a></li>
-                <li><a href="#">Profile</a></li>
+                <li><a href="/applications">Applications</a></li>
+                <li><a href="/profile">Profile</a></li>
                 <li><a href="/logout">Log Out</a></li>
             </ul>
         </nav>
     </header>
-    <div class="applications-container">
-        <h2>Jobs You Have Applied To</h2>
-        {% for job in applied_jobs %}
-        <div class="job">
-            <h3>{{ job['Title'] }}</h3>
-            <p><strong>Company:</strong> {{ job['Company'] }}</p>
-            <p><strong>Location:</strong> {{ job['Location'] }}</p>
-            <p><strong>Date Applied:</strong> {{ job['Date Applied'] }}</p>
-            <p class="status">Application Status: {{ job['Status'] }}</p>
-            <a href="{{ job['Details Link'] }}" class="btn" target="_blank" rel="noopener noreferrer">View Details</a>
+    <div class="profile-container">
+        <div class="profile-card">
+            <h2>{{ user['Name'] }}</h2>
+            <p><strong>Email:</strong> {{ user['Email'] }}</p>
+            <p><strong>Phone:</strong> {{ user['Phone'] }}</p>
+            <p><strong>University:</strong> {{ user['University'] }}</p>
+            <p><strong>Major:</strong> {{ user['Major'] }}</p>
+            <p><strong>Year:</strong> {{ user['Year'] }}</p>
+            <a href="#" class="btn">Edit Profile</a>
         </div>
-        {% else %}
-        <p>No jobs applied yet. Start applying to opportunities!</p>
-        {% endfor %}
     </div>
 </body>
 </html>
