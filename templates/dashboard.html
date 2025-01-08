@@ -126,7 +126,10 @@
                 </a>
              <div class="question" style="display: none;">
                 <p>Did you apply?</p>
-                <button class="yes-btn">Yes</button>
+                <form action="/apply" method="post">
+                    <input type="hidden" name="opportunity_title" value="{{ opportunity['Description'] }}">
+                    <button class="yes-btn">Yes</button>
+                </form>
                 <button class="no-btn">No</button>
             </div>            
             </div>

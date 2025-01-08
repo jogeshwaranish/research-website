@@ -26,6 +26,11 @@ class User(db.Model):
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(50), nullable=False)
 
+class Applications(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    opportunity_id = db.Column(db.String(50), nullable=False)
+
 @app.route('/')
 def main_page():
     return render_template('index.html')
@@ -82,18 +87,36 @@ def signup():
 @app.route('/logout')
 def logout():
     response = make_response(redirect(url_for('signin')))
-    response.delete_cookie('access_token_cookie')
+    response.delete_cookie('jwt')
     return response
     
 @app.route('/applications', methods=['GET'])
 @jwt_required()
 def applications():
-    return render_template('applications.html')
+    user = User.query.get(get_jwt_identity())
+    if user:
+        applications = Applications.query.filter_by(user_id=user.id).all()
+        return render_template('applications.html', applications=applications)
+    else:
+        return redirect(url_for('signin'))
 
 @app.route('/profile',methods=['GET','POST'])
 @jwt_required()
 def profile():
-    return render_template('profile.html')
+    return render_template('profile.html', user = User)
+
+@app.route('/apply', methods = ['POST'])
+@jwt_required()
+def apply():
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    if user:
+        opportunity_id = request.form.get('opportunity_id')
+        new_application = Applications(user_id=user.id, opportunity_id=request.form.get('opportunity_title'))
+        db.session.commit()
+        return redirect(url_for('dashboard'))
+    else:
+        return redirect(url_for('signin'))
 
 if __name__ == "__main__":
     with app.app_context():
