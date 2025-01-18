@@ -103,8 +103,11 @@ def applications():
 @app.route('/profile',methods=['GET','POST'])
 @jwt_required()
 def profile():
-    return render_template('profile.html', user = User)
-
+    user = User.query.get(get_jwt_identity())
+    if user:
+        return render_template('profile.html', info = user.to_dict())
+    else:
+        return redirect(url_for('signin'))
 @app.route('/apply', methods = ['POST'])
 @jwt_required()
 def apply():
