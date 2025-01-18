@@ -105,7 +105,8 @@ def applications():
 def profile():
     user = User.query.get(get_jwt_identity())
     if user:
-        return render_template('profile.html', info = user.to_dict())
+        data = {"name":user.username}
+        return render_template('profile.html', info = data)
     else:
         return redirect(url_for('signin'))
 @app.route('/apply', methods = ['POST'])
